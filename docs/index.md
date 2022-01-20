@@ -1,19 +1,17 @@
 # Welcome to my Mini Data Science Lab
-This page provides the details of my investigation that I performed while solving the Summer 2022 Data Science Intern Challenge.
+This page provides the details of my experiment that I performed to solve the Summer 2022 Data Science Intern Challenge.
 
 ## Question 1
-My experiment) (program is available in a [Jupyter Notebook file](https://github.com/Rijul5/DS-Challenger/blob/fc3f48183db1f312975364d713621ad6bd19b559/Challenger%20Notebook.pdf) as well as in the [PDF file](https://github.com/Rijul5/DS-Challenger/blob/fc3f48183db1f312975364d713621ad6bd19b559/Challenger%20Notebook.pdf).
+My experiment (program) is available in the [Jupyter Notebook file](https://github.com/Rijul5/DS-Challenger/blob/main/Challenger%20Notebook.ipynb) as well as in the [PDF file](https://github.com/Rijul5/DS-Challenger/blob/main/Challenger%20Notebook.pdf).
 
 ### Summary of Analysis Results
 **a.  Think about what could be going wrong with our calculation. Think about a better way to evaluate this data.**
 
 After analyzing the data, I found that the data distribution is right-skewed. Due to the presence of some large order values, data distribution is no longer normal. This results in a significant difference in mean, median, and mode values. In addition, the mean value is not a true representative of the central tendency of data. Therefore, the metric of average order value (AOV) is misleading as it uses the mean value to measure the average dollar amount spent each time a customer places an order.
-<br></br>
 
 **b. What metric would you report for this dataset?**
 
 I would use the median metric for this dataset.
-<br></br>
 
 **c.  What is its value?**
 
