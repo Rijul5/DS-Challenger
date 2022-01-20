@@ -1,37 +1,83 @@
-## Welcome to GitHub Pages
+# Welcome to my Mini Data Science Lab
+This page provides the details of my investigation that I performed while solving the Summer 2022 Data Science Intern Challenge.
 
-You can use the [editor on GitHub](https://github.com/Rijul5/DS-Challenger/edit/main/docs/index.md) to maintain and preview the content for your website in Markdown files.
+## Question 1
+My experiment) (program is available in a [Jupyter Notebook file](https://github.com/Rijul5/DS-Challenger/blob/fc3f48183db1f312975364d713621ad6bd19b559/Challenger%20Notebook.pdf) as well as in the [PDF file](https://github.com/Rijul5/DS-Challenger/blob/fc3f48183db1f312975364d713621ad6bd19b559/Challenger%20Notebook.pdf).
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Summary of Analysis Results
+**a.  Think about what could be going wrong with our calculation. Think about a better way to evaluate this data.**
 
-### Markdown
+After analyzing the data, I found that the data distribution is right-skewed. Due to the presence of some large order values, data distribution is no longer normal. This results in a significant difference in mean, median, and mode values. In addition, the mean value is not a true representative of the central tendency of data. Therefore, the metric of average order value (AOV) is misleading as it uses the mean value to measure the average dollar amount spent each time a customer places an order.
+<br></br>
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+**b. What metric would you report for this dataset?**
 
-```markdown
-Syntax highlighted code block
+I would use the median metric for this dataset.
+<br></br>
 
-# Header 1
-## Header 2
-### Header 3
+**c.  What is its value?**
 
-- Bulleted
-- List
+284.0
 
-1. Numbered
-2. List
+### My thought process during this investigation
 
-**Bold** and _Italic_ and `Code` text
+#### I followed the below steps programmatically to analyze the data.
 
-[Link](url) and ![Image](src)
+1. Reading data from the given CSV file and calculating the preliminary AOV value.
+2. Understanding the data structure by observing features (columns) and corresponding data types.
+3. Evaluating if the data has some missing or invalid data points.
+4. Understanding the quartiles of data distribution and observing mean, median, minimum, and maximum values.
+5. Visualizing the data distribution using histogram and violin plots.
+6. As I observe that the data distribution is right-skewed from step 3, I performed a log transformation of the orders data for better visualization of data distribution and the values of mean, median, and mode.
+7. After performing step 4, it is clearly evident that the median is a better metric than the mean (AOV) value. Therefore, I decide to use the median metric for the given dataset and compute its value.
+
+## Question 2
+**a. How many orders were shipped by Speedy Express in total?**
+
+__Query__
+```SQL
+SELECT COUNT(*) AS TotalOrders
+FROM Orders AS ord 
+JOIN 
+SHIPPERS AS shp 
+ON ord.ShipperID = shp.ShipperID
+WHERE ShipperName = "Speedy Express"
 ```
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+__Result__
+54
 
-### Jekyll Themes
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Rijul5/DS-Challenger/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+**b. What is the last name of the employee with the most orders?**
 
-### Support or Contact
+__Query__
+```SQL
+SELECT LastName, COUNT (*) AS NumberOfOrders
+FROM Orders AS ord
+JOIN
+Employees AS emp
+ON ord.EmployeeID = emp.EmployeeID
+GROUP BY (ord.EmployeeID)
+ORDER BY NumberOfOrders DESC
+LIMIT 1
+```
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+__Result__
+Peacock with 40 Orders
+
+**c. What product was ordered the most by customers in Germany?**
+
+__Query__
+```SQL
+SELECT prod.ProductID, prod.ProductName, SUM(Quantity) AS TotalQuantity
+FROM Orders AS ord, OrderDetails AS ordd, Customers AS cust, Products AS prod
+WHERE cust.Country = "Germany" AND ord.OrderID = ordd.OrderID AND prod.ProductID = ordd.ProductID AND ord.CustomerID = cust.CustomerID
+GROUP BY prod.ProductID
+ORDER BY TotalQuantity DESC
+```
+
+__Result__
+Product Name: Boston Crab Meat
+Total Quantity: 160
+ProductID: 40
+
